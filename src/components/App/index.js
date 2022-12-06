@@ -71,6 +71,7 @@ function App() {
     const data = await response.json();
     const listItemWithId = data.payload;
     console.log(listItemWithId);
+
     setList((previous) => {
       return previous.map((item) => {
         return item.id !== listitem.id
@@ -79,6 +80,16 @@ function App() {
       });
     });
   }
+
+  // function tickItem(idOfTickedItem) {
+  //   // patch request to database for toggle event
+  //   setList((previous) => {
+  //     return previous.map((item) => {
+  //       return item.id !== idOfTickedItem
+  //         ? item
+  //         : { ...item, completed: !item.completed };
+  //     });
+  //   });
 
   return (
     <section>
