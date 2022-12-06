@@ -53,8 +53,9 @@ function App() {
     const clearedList = [];
     setList(clearedList);
   }
-
+  /**Send an update(patch) in tick item (update value in database) */
   function tickItem(idOfTickedItem) {
+    // patch request to database for toggle event
     setList((previous) => {
       return previous.map((item) => {
         return item.id !== idOfTickedItem
