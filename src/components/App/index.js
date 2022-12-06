@@ -12,6 +12,7 @@ const url = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:3000";
 
 function App() {
   const [list, setList] = useState([]);
+  console.log(list);
 
   // Fetching shopping list data from shopping list API.
   useEffect(() => {
@@ -54,11 +55,25 @@ function App() {
     setList(clearedList);
   }
   /**Send an update(patch) in tick item (update value in database) */
-  function tickItem(idOfTickedItem) {
+  async function tickItem(listitem) {
     // patch request to database for toggle event
+    const response = await fetch(`${url}/items/${listitem.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ completed: `${!listitem.completed}` }),
+    });
+
+    if (!response.ok) {
+      // Shouldn't really use alert, as it blocks, but will do for now.
+      return alert("Failed to add item, please try again later.");
+    }
+
+    const data = await response.json();
+    const listItemWithId = data.payload;
+    console.log(listItemWithId);
     setList((previous) => {
       return previous.map((item) => {
-        return item.id !== idOfTickedItem
+        return item.id !== listitem.id
           ? item
           : { ...item, completed: !item.completed };
       });
